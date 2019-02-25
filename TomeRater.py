@@ -24,6 +24,24 @@ class User(object):
             self.email = address
             return "Your email address has been updated from {old} to {new}.".format(old=old_email, new=self.email)
 
+    def read_book(self, book, rating=None):
+        self.books.update({book: rating})
+        if rating is not None:
+            book.ratings.append(rating)
+
+    def get_avg_rating(self):
+        total_ratings = 0
+        rated = 0
+        avg_rating = 0
+        if len(self.books) > 0:
+            for rating in self.books.values():
+                if rating is not None:
+                    total_ratings += rating
+                    rated += 1
+                avg_rating = total_ratings / rated
+            return "{name} has read {n} books and rated {rated} of them, for an average book rating of {avg_rating}".format(name=self.name, n=len(self.books), rated=rated, avg_rating=avg_rating)
+
+
 
 class Book(object):
     def __init__(self, title, isbn):
@@ -37,6 +55,9 @@ class Book(object):
     def __eq__(self, other_book):
         if self.title == other_book.title and self.isbn == other_book.isbn:
             return "This is the same book."
+
+    def __hash__(self):
+        return hash((self.title, self.isbn))
 
     def get_title(self):
         return self.title
@@ -53,18 +74,18 @@ class Book(object):
             return "The ISBN has been updated from {old} to {new}.".format(old=old_isbn, new=self.isbn)
 
     def add_rating(self, rating):
-        if 0 <= rating <= 5:
+        if 0 <= rating <= 4:
             self.ratings.append(rating)
         else:
-            print("{rating} is not a valid rating. Please enter a number between 0 and 5.".format(rating=rating))
+            print("{rating} is not a valid rating. Please enter a number between 0 and 4.".format(rating=rating))
 
-    def avg_rating(self):
+    def get_avg_rating(self):
         total_ratings = 0
         if len(self.ratings) > 0:
             for rating in self.ratings:
                 total_ratings += rating
             avg_rating = total_ratings / len(self.ratings)
-            return "The average rating for \"{title}\" is {rating}".format(title=self.title, rating=avg_rating)
+            return "\"{title}\" has {n} rating(s). The average rating is {rating} out of 4 stars.".format(title=self.title, n=len(self.ratings), rating=avg_rating)
         else:
             return "\"{title}\" does not have any ratings yet.".format(title=self.title)
 
@@ -97,25 +118,30 @@ class NonFiction(Book):
         return self.level
 
 
+death_of_a_king = Book("Death Of A King", 9780316332774)
+making_work_visible = Book("Making Work Visible: Exposing Time Theft to Optimize Work & Flow", 9781942788157)
+kav_and_clay = Fiction("The Amazing Adventures of Kavalier & Clay", "Michael Chabon", 9782002400873)
+python_crash_course = NonFiction("Python Crash Course: A Hands-On, Project-Based Introduction to Programming", "Python programming", "beginner", 9781593276034)
 alucas = User("Alan Lucas", "alucas@gmail.com")
 blucas = User("Alan Lucas", "alucas@gmail.com")
 print(alucas)
 print(alucas.__eq__(blucas))
-death_of_a_king = Book("Death Of A King", 9780316332774)
 print(death_of_a_king)
 print(death_of_a_king.add_rating(6))
 print(death_of_a_king.add_rating(3))
 print(death_of_a_king.add_rating(4))
-print(death_of_a_king.add_rating(5))
+print(death_of_a_king.add_rating(2))
 print(death_of_a_king.add_rating(3))
 print(death_of_a_king.ratings)
-print(death_of_a_king.avg_rating())
-making_work_visible = Book("Making Work Visible: Exposing Time Theft to Optimize Work & Flow", 9781942788157)
-print(making_work_visible.avg_rating())
-kav_and_clay = Fiction("The Amazing Adventures of Kavalier & Clay", "Michael Chabon", 9782002400873)
+print(death_of_a_king.get_avg_rating())
+print(making_work_visible.get_avg_rating())
 print(kav_and_clay)
 print(kav_and_clay.get_author())
-python_crash_course = NonFiction("Python Crash Course: A Hands-On, Project-Based Introduction to Programming", "Python programming", "beginner", 9781593276034)
 print(python_crash_course.get_level())
 print(python_crash_course.get_subject())
 print(python_crash_course)
+print(alucas.read_book(kav_and_clay, 4))
+print(alucas.read_book(python_crash_course, 3))
+print(alucas.read_book(death_of_a_king))
+print(alucas.get_avg_rating())
+print(python_crash_course.get_avg_rating())
