@@ -4,6 +4,13 @@ class User(object):
         self.email = email
         self.books = {}
 
+    def __repr__(self):
+        return "{name} has read {books} books and can be reached at {email}.".format(name=self.name, email=self.email, books=len(self.books))
+
+    def __eq__(self, other_user):
+        if self.name == other_user.name and self.email == other_user.email:
+            return "This is the same user."
+
     def get_email(self):
         return self.email
 
@@ -17,19 +24,19 @@ class User(object):
             self.email = address
             return "Your email address has been updated from {old} to {new}.".format(old=old_email, new=self.email)
 
-    def __repr__(self):
-        return "{name} has read {books} books and can be reached at {email}.".format(name=self.name, email=self.email, books=len(self.books))
-
-    def __eq__(self, other_user):
-        if self.name == other_user.name and self.email == other_user.email:
-            return "This is the same user."
-
 
 class Book(object):
     def __init__(self, title, isbn):
         self.title = title
         self.isbn = isbn
         self.ratings = []
+
+    def __repr__(self):
+        return "\"{title}\", ISBN {isbn}".format(title=self.title, isbn=self.isbn)
+
+    def __eq__(self, other_book):
+        if self.title == other_book.title and self.isbn == other_book.isbn:
+            return "This is the same book."
 
     def get_title(self):
         return self.title
@@ -61,12 +68,33 @@ class Book(object):
         else:
             return "\"{title}\" does not have any ratings yet.".format(title=self.title)
 
-    def __repr__(self):
-        return "\"{title}\", ISBN {isbn}".format(title=self.title, isbn=self.isbn)
 
-    def __eq__(self, other_book):
-        if self.title == other_book.title and self.isbn == other_book.isbn:
-            return "This is the same book."
+class Fiction(Book):
+    def __init__(self, title, author, isbn):
+        super().__init__(title, isbn)
+        self.author = author
+
+    def __repr__(self):
+        return "\"{title}\" by {author}".format(title=self.title, author=self.author)
+
+    def get_author(self):
+        return self.author
+
+
+class NonFiction(Book):
+    def __init__(self, title, subject, level, isbn):
+        super().__init__(title, isbn)
+        self.subject = subject
+        self.level = level
+
+    def __repr__(self):
+        return "\"{title}\", a {level} manual on {subject}.".format(title=self.title, level=self.level, subject=self.subject)
+
+    def get_subject(self):
+        return self.subject
+
+    def get_level(self):
+        return self.level
 
 
 alucas = User("Alan Lucas", "alucas@gmail.com")
@@ -84,3 +112,10 @@ print(death_of_a_king.ratings)
 print(death_of_a_king.avg_rating())
 making_work_visible = Book("Making Work Visible: Exposing Time Theft to Optimize Work & Flow", 9781942788157)
 print(making_work_visible.avg_rating())
+kav_and_clay = Fiction("The Amazing Adventures of Kavalier & Clay", "Michael Chabon", 9782002400873)
+print(kav_and_clay)
+print(kav_and_clay.get_author())
+python_crash_course = NonFiction("Python Crash Course: A Hands-On, Project-Based Introduction to Programming", "Python programming", "beginner", 9781593276034)
+print(python_crash_course.get_level())
+print(python_crash_course.get_subject())
+print(python_crash_course)
