@@ -144,7 +144,16 @@ class TomeRater:
             return "No user with email address {email}".format(email=email)
 
     def add_user(self, name, email, books=None):
+        if "email" not in self.users:
+            self.users["email"] = []
+            print(self.users)
+        for value in self.users.values():
+            for i in value:
+                if i == email:
+                    pass
         User(name, email)
+        self.users["email"] += [email]
+        print(self.users)
         if books is not None:
             for book in books:
                 self.add_book_to_user(book, email)
@@ -183,3 +192,10 @@ class TomeRater:
 # xusers = {}
 # xusers["bob@bob.com"] = "Bob Simon"
 # print(xusers)
+
+Tommy = TomeRater()
+Tommy.add_user("Bob Roberts", "bob.roberts@bobrob.com")
+print(Tommy.users)
+Tommy.add_user("Sal Simon", "salsimon@gmail.com", ["It", "Them", "Yes"])
+print(Tommy.books)
+Tommy.add_book_to_user("Hello", "salsimon@gmail.com", 4)
