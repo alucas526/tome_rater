@@ -123,7 +123,7 @@ class TomeRater:
         self.books = {}
 
     def __repr__(self):
-        return "Welcome to TomeRater!"
+        return "Welcome to TomeRater! Users: {users}, Books: {books}.".format(users=self.users, books=self.books)
 
     def create_book(self, title, isbn):
         return Book(title, isbn)
@@ -135,28 +135,56 @@ class TomeRater:
         return NonFiction(title, subject, level, isbn)
 
     def add_book_to_user(self, book, email, rating=None):
-        if email in self.users.keys():
-            if User.get_email(email):
-                User.read_book(book, rating)
-                Book.add_rating(book, rating)
-            # if book in self.books:
+        print(self.users)
+        print(email)
+        print(self.users["email"])
+        if email == self.users["email"]:
+            return "We got it."
         else:
-            return "No user with email address {email}".format(email=email)
+            return "No user with email {email}".format(email=email)
 
     def add_user(self, name, email, user_books=None):
-        if "email" not in self.users:
-            self.users["email"] = []
-            print(self.users)
-        for value in self.users.values():
-            for i in value:
-                if i == email:
-                    pass
-        User(name, email)
-        self.users["email"] += [email]
-        print(self.users)
+        new_user = User(name, email)
+        self.users["email"] = email
+        print(new_user)
         if user_books is not None:
             for book in user_books:
                 self.add_book_to_user(book, email)
+
+
+
+
+
+
+
+
+
+
+
+
+    # def add_book_to_user(self, book, email, rating=None):
+    #     if email in self.users.keys():
+    #         if User.get_email(email):
+    #             User.read_book(book, rating)
+    #             Book.add_rating(book, rating)
+    #         # if book in self.books:
+    #     else:
+    #         return "No user with email address {email}".format(email=email)
+    #
+    # def add_user(self, name, email, user_books=None):
+    #     if "email" not in self.users:
+    #         self.users["email"] = []
+    #         print(self.users)
+    #     for value in self.users.values():
+    #         for i in value:
+    #             if i == email:
+    #                 pass
+    #     User(name, email)
+    #     self.users["email"] += [email]
+    #     print(self.users)
+    #     if user_books is not None:
+    #         for book in user_books:
+    #             self.add_book_to_user(book, email)
 
     def print_catalog(self):
         pass
@@ -175,6 +203,13 @@ class TomeRater:
             pass
 
 
+tom = TomeRater()
+user1 = tom.add_user("Bob Henry", "bhenry@anywhere.com")
+user2 = tom.add_user("Rob", "r@y.x", ["It", "Yes", "Non"])
+# print(tom.users)
+# print(user1.get)
+
+
 # user1 = User("Bob", "bob@bob.com")
 # book1 = Fiction("It", "Stephen King", 9781501175466)
 # print(user1.read_book(book1, 3.5))
@@ -191,11 +226,11 @@ class TomeRater:
 # xusers["bob@bob.com"] = "Bob Simon"
 # print(xusers)
 
-user1 = User("Bob Roberts", "bobroberts@bob.com")
-print(user1)
-Tommy = TomeRater()
-Tommy.add_user("Bob Roberts", "bob.roberts@bobrob.com")
-print(Tommy.users)
-Tommy.add_user("Sal Simon", "salsimon@gmail.com", ["It", "Them", "Yes"])
-print(Tommy.books)
-Tommy.add_book_to_user("Hello", "salsimon@gmail.com", 4)
+# user1 = User("Bob Roberts", "bobroberts@bob.com")
+# print(user1)
+# Tommy = TomeRater()
+# Tommy.add_user("Bob Roberts", "bob.roberts@bobrob.com")
+# print(Tommy.users)
+# Tommy.add_user("Sal Simon", "salsimon@gmail.com", ["It", "Them", "Yes"])
+# print(Tommy.books)
+# Tommy.add_book_to_user("Hello", "salsimon@gmail.com", 4)
