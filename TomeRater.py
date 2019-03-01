@@ -143,7 +143,7 @@ class TomeRater:
         else:
             return "No user with email address {email}".format(email=email)
 
-    def add_user(self, name, email, books=None):
+    def add_user(self, name, email, user_books=None):
         if "email" not in self.users:
             self.users["email"] = []
             print(self.users)
@@ -154,8 +154,8 @@ class TomeRater:
         User(name, email)
         self.users["email"] += [email]
         print(self.users)
-        if books is not None:
-            for book in books:
+        if user_books is not None:
+            for book in user_books:
                 self.add_book_to_user(book, email)
 
     def print_catalog(self):
@@ -175,8 +175,6 @@ class TomeRater:
             pass
 
 
-
-
 # user1 = User("Bob", "bob@bob.com")
 # book1 = Fiction("It", "Stephen King", 9781501175466)
 # print(user1.read_book(book1, 3.5))
@@ -193,6 +191,8 @@ class TomeRater:
 # xusers["bob@bob.com"] = "Bob Simon"
 # print(xusers)
 
+user1 = User("Bob Roberts", "bobroberts@bob.com")
+print(user1)
 Tommy = TomeRater()
 Tommy.add_user("Bob Roberts", "bob.roberts@bobrob.com")
 print(Tommy.users)
