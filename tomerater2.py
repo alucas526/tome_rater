@@ -190,6 +190,20 @@ class TomeRater:
                 self.add_book_to_user(book, email, rating=None)
 
     def print_catalog(self):
+        for key in self.books.keys():
+            print(key)
+
+    def print_users(self):
+        for value in self.users.values():
+            print(value)
+
+    def most_read_book(self):
+        pass
+
+    def highest_rated_book(self):
+        pass
+
+    def most_positive_user(self):
         pass
 
 
