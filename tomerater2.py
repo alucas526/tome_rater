@@ -74,11 +74,13 @@ class Book(object):
 
     def __eq__(self, other_book):
         if self.title == other_book.title and self.isbn == other_book.isbn:
-            return "\"{self_title}\" and \"{other_title}\" are the same book!"\
-                .format(self_title=self.title, other_title=other_book.title)
+            return True
+            # return "\"{self_title}\" and \"{other_title}\" are the same book!"\
+            #     .format(self_title=self.title, other_title=other_book.title)
         else:
-            return "\"{self_title}\" and \"{other_title}\" are not the same book."\
-                .format(self_title=self.title, other_title=other_book.title)
+            return False
+            # return "\"{self_title}\" and \"{other_title}\" are not the same book."\
+            #     .format(self_title=self.title, other_title=other_book.title)
 
     def __hash__(self):
         return hash((self.title, self.isbn))
@@ -100,11 +102,12 @@ class Book(object):
                 .format(title=self.title, isbn=self.isbn)
 
     def add_rating(self, rating):
-        if 0 <= rating <= 4:
-            self.ratings.append(rating)
-            return "A rating of {rating} has been added to \"{title}\".".format(rating=rating, title=self.title)
-        else:
-            return "{rating} is not a valid rating! Rating must be between 0 and 4.".format(rating=rating)
+        if rating is not None:
+            if 0 <= rating <= 4:
+                self.ratings.append(rating)
+                return "A rating of {rating} has been added to \"{title}\".".format(rating=rating, title=self.title)
+            else:
+                return "{rating} is not a valid rating! Rating must be between 0 and 4.".format(rating=rating)
 
     def get_avg_rating(self):
         total_rating = 0
@@ -171,21 +174,24 @@ class TomeRater:
 
     def add_book_to_user(self, book, email, rating=None):
         if email in self.users:
-            User.read_book(book, rating)
-            Book.add_rating(book, rating)
-            if book in self.books:
-                self.books[book] += 1
-            else:
-                self.books[book] = 1
+            print("User is {user}".format(user=self.users[email]))
+            userx = self.users[email]
+            userx.read_book(book, rating)
+            for key in self.books.keys():
+                if book == key:
+                    self.books[book] += 1
+                else:
+                    self.books[book] = 1
+            book.add_rating(rating)
         else:
             return "No user with email {email}!".format(email=email)
 
     def add_user(self, name, email, user_books=None):
-        User(name, email)
-        self.users[name] = email
+        self.users[email] = User(name, email)
         if user_books is not None:
             for book in user_books:
-                self.add_book_to_user(book, email, rating=None)
+                print("We have some books to add...")
+                self.add_book_to_user(book, email)
 
     def print_catalog(self):
         for key in self.books.keys():
