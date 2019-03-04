@@ -5,17 +5,16 @@ class User(object):
         self.books = {}
 
     def __repr__(self):
-        return "{name} has read {num} book(s) and can be reached at {email}".format(name=self.name,
-                                                                                    num=len(self.books),
-                                                                                    email=self.email)
+        return "{name} has read {num} book(s) and can be reached at {email}"\
+            .format(name=self.name, num=len(self.books), email=self.email)
 
     def __eq__(self, other_user):
         if self.name == other_user.name and self.email == other_user.email:
-            return "{self_name} and {other_name} are the same user!".format(self_name=self.name,
-                                                                            other_name=other_user.name)
+            return "{self_name} and {other_name} are the same user!"\
+                .format(self_name=self.name, other_name=other_user.name)
         else:
-            return "{self_name} and {other_name} are not the same user.".format(self_name=self.name,
-                                                                                other_name=other_user.name)
+            return "{self_name} and {other_name} are not the same user."\
+                .format(self_name=self.name, other_name=other_user.name)
 
     def get_email(self):
         return "{name}'s email address is {email}.".format(name=self.name, email=self.email)
@@ -24,20 +23,18 @@ class User(object):
         current_email = self.email
         if new_email != self.email:
             self.email = new_email
-            return "{name}'s email address has been changed from {old} to {new}.".format(name=self.name,
-                                                                                         old=current_email,
-                                                                                         new=self.email)
+            return "{name}'s email address has been changed from {old} to {new}."\
+                .format(name=self.name, old=current_email, new=self.email)
         else:
-            return "{name}'s email address is already {new} and has not been changed.".format(name=self.name,
-                                                                                              new=new_email)
+            return "{name}'s email address is already {new} and has not been changed."\
+                .format(name=self.name, new=new_email)
 
     def read_book(self, book, rating=None):
         if rating is not None:
             if 0 <= rating <= 4:
                 self.books.update({book: rating})
-                return "{name} read \"{title}\" and gave it a rating of {rating}".format(name=self.name,
-                                                                                         title=book.title,
-                                                                                         rating=rating)
+                return "{name} read \"{title}\" and gave it a rating of {rating}"\
+                    .format(name=self.name, title=book.title, rating=rating)
             else:
                 return "{rating} is not a valid rating! Rating must be between 0 and 4.".format(rating=rating)
         else:
@@ -56,12 +53,12 @@ class User(object):
                     rated_books += 1
             if rated_books > 0:
                 avg_rating = total_rating / rated_books
-                return "{name} has read {num_books}, and rated {rated_books}, book(s). The average rating is " \
-                       "{avg_rating:.2f}".format(name=self.name, num_books=total_books, rated_books=rated_books,
-                                                 avg_rating=avg_rating)
+                return "{name} has read {num_books}, and rated {rated_books}, book(s). " \
+                       "The average rating is {avg_rating:.2f}"\
+                    .format(name=self.name, num_books=total_books, rated_books=rated_books, avg_rating=avg_rating)
             else:
-                return "{name} has read {num_books} but has not rated any of them.".format(name=self.name,
-                                                                                           num_books=total_books)
+                return "{name} has read {num_books} but has not rated any of them."\
+                    .format(name=self.name, num_books=total_books)
         else:
             return "{name} has not read any books!".format(name=self.name)
 
@@ -77,11 +74,11 @@ class Book(object):
 
     def __eq__(self, other_book):
         if self.title == other_book.title and self.isbn == other_book.isbn:
-            return "\"{self_title}\" and \"{other_title}\" are the same book!".format(self_title=self.title,
-                                                                                      other_title=other_book.title)
+            return "\"{self_title}\" and \"{other_title}\" are the same book!"\
+                .format(self_title=self.title, other_title=other_book.title)
         else:
-            return "\"{self_title}\" and \"{other_title}\" are not the same book.".format(self_title=self.title,
-                                                                                          other_title=other_book.title)
+            return "\"{self_title}\" and \"{other_title}\" are not the same book."\
+                .format(self_title=self.title, other_title=other_book.title)
 
     def __hash__(self):
         return hash((self.title, self.isbn))
@@ -96,12 +93,11 @@ class Book(object):
         current_isbn = self.isbn
         if new_isbn != self.isbn:
             self.isbn = new_isbn
-            return "The ISBN for \"{title}\" has been changed from {old} to {new}.".format(title=self.title,
-                                                                                           old=current_isbn,
-                                                                                           new=self.isbn)
+            return "The ISBN for \"{title}\" has been changed from {old} to {new}."\
+                .format(title=self.title, old=current_isbn, new=self.isbn)
         else:
-            return "The ISBN for \"{title}\" is already {isbn} and has not been changed.".format(title=self.title,
-                                                                                                 isbn=self.isbn)
+            return "The ISBN for \"{title}\" is already {isbn} and has not been changed."\
+                .format(title=self.title, isbn=self.isbn)
 
     def add_rating(self, rating):
         if 0 <= rating <= 4:
@@ -141,14 +137,16 @@ class NonFiction(Book):
         self.level = level
 
     def __repr__(self):
-        return "\"{title}\" is a {level}-level manual on {subject}.".format(title=self.title.title(),
-                                                                            level=self.level, subject=self.subject)
+        return "\"{title}\" is a {level}-level manual on {subject}."\
+            .format(title=self.title.title(), level=self.level, subject=self.subject)
 
     def get_subject(self):
-        return "{subject} is the subject of \"{title}\".".format(subject=self.subject.title(), title=self.title.title())
+        return "{subject} is the subject of \"{title}\"."\
+            .format(subject=self.subject.title(), title=self.title.title())
 
     def get_level(self):
-        return "\"{title}\" is a {level}-level book.".format(title=self.title.title(), level=self.level)
+        return "\"{title}\" is a {level}-level book."\
+            .format(title=self.title.title(), level=self.level)
 
 
 class TomeRater:
