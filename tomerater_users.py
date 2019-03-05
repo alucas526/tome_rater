@@ -24,7 +24,7 @@ class User(object):
             split_email = address.split("@")
             pre_at = split_email[0]
             post_at = split_email[1]
-            if len(pre_at) < 1:
+            if len(pre_at) < 1 or len(post_at) < 1:
                 return False
             if pre_at[0] == "." or pre_at[-1] == ".":
                 return False

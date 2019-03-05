@@ -29,7 +29,14 @@ Tome_Rater.add_book_to_user(novel2, "marvin@mit.edu", 2)
 Tome_Rater.add_book_to_user(novel3, "marvin@mit.edu", 2)
 Tome_Rater.add_book_to_user(novel3, "david@computation.org", 4)
 
-print(Tome_Rater.users["alan@turing.com"].change_email("alan@x.om"))
+print(Tome_Rater.users["alan@turing.com"].change_email("alan@"))
+print(Tome_Rater.users["alan@turing.com"].change_email("@turing.com"))
+print(Tome_Rater.users["alan@turing.com"].change_email("alanturing.com"))
+print(Tome_Rater.users["alan@turing.com"].change_email("alan@turing."))
+print(Tome_Rater.users["alan@turing.com"].change_email("alan@t.c"))
+print(Tome_Rater.users["alan@turing.com"].change_email("alan@.com"))
+print(Tome_Rater.users["alan@turing.com"].change_email("alan@turing.net"))
+
 
 # Uncomment these to test your functions:
 Tome_Rater.print_catalog()
