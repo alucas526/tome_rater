@@ -17,10 +17,43 @@ class User(object):
     def get_email(self):
         return self.email
 
+    def validate_email(self, address):
+        if address.count(" "):
+            return False
+        if address.count("@") == 1:
+            split_email = address.split("@")
+            pre_at = split_email[0]
+            post_at = split_email[1]
+            if len(pre_at) < 1:
+                return False
+            if pre_at[0] == "." or pre_at[-1] == ".":
+                return False
+            if post_at[0] != ".":
+                dot_count = 0
+                for i in range(1, len(post_at) - 2):
+                    if post_at[i].count("."):
+                        dot_count += 1
+                if dot_count != 0:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
+
     def change_email(self, address):
-        self.email = address
-        return "{name}'s email address has been changed to {new}."\
-            .format(name=self.name, new=self.email)
+        if not self.validate_email(address):
+            return "'{address}' is an invalid email address!".format(address=address)
+        else:
+            old_email = self.email
+            if old_email == address:
+                return "No changes made. '{address}' is already the current email address."\
+                    .format(address=address)
+            else:
+                self.email = address
+                return "{name}'s email address has been updated from '{old}' to '{new}'."\
+                    .format(name=self.name, old=old_email, new=self.email)
 
     def read_book(self, book, rating=None):
         self.books.update({book: rating})
@@ -139,6 +172,9 @@ class TomeRater:
         self.users = {}
         self.books = {}
 
+    def __repr__(self):
+        return "Welcome to TomeRater!"
+
     def create_book(self, title, isbn):
         return Book(title, isbn)
 
@@ -181,18 +217,19 @@ class TomeRater:
             if value > most_read:
                 most_read = value
                 book_title = key.get_title()
-        return "{title} has been read {n} times.".format(title=book_title.title(), n=most_read)
+        return "{title} has been read {n} times."\
+            .format(title=book_title.title(), n=most_read)
 
-    # def highest_rated_book(self):
-    #     highest_avg_rating = 0
-    #     highest_book = ""
-    #     for key in self.books.keys():
-    #         print(key)
-    #         if key.get_avg_rating() > highest_avg_rating:
-    #             highest_avg_rating = key.get_avg_rating
-    #             highest_book = key.get_title()
-    #     return highest_book
-    #
+    def highest_rated_book(self):
+        highest_avg_rating = 0
+        highest_book = ""
+        for key in self.books.keys():
+            if key.get_avg_rating() > highest_avg_rating:
+                highest_avg_rating = key.get_avg_rating()
+                highest_book = key.get_title()
+        return "{highest_book} is the highest rated of all books, with an average rating of {avg:.2f}"\
+            .format(highest_book=highest_book, avg=highest_avg_rating)
+
     def most_positive_user(self):
         highest_avg_rating = 0
         highest_user = ""
@@ -200,38 +237,6 @@ class TomeRater:
             if user.get_avg_rating() > highest_avg_rating:
                 highest_avg_rating = user.get_avg_rating()
                 highest_user = user.name
-        return "{highest_user} is the most positive user with an average book rating of {avg_rating:.2f}."\
+        return "{highest_user} is the most positive user, with an average book rating of {avg_rating:.2f}."\
             .format(highest_user=highest_user.title(), avg_rating=highest_avg_rating)
 
-
-
-# book1 = Book("It", 234524352)
-# book2 = Book("where the wild things are", 234598243895)
-# book3 = Book("where the wild things are", 234598243895)
-# fiction1 = Fiction("Hello", "Walter Walter", 243587987234)
-# nonfiction1 = NonFiction("do all of the things", "speed reading", "INTERMEDIATE", 2348957890243)
-# bob = User("Bob", "bob@bob.com")
-# bob2 = User("Bob Two", "bob@robert.com")
-# print(bob.get_email())
-# print(bob.change_email("bob@robert.com"))
-# print(bob)
-# print(book2.add_rating(5))
-# print(book2.add_rating(None))
-# print(book2.add_rating(4))
-# print(book2.add_rating(3))
-# print(book2.ratings)
-# print(book2.__eq__(book3))
-# print(bob.__eq__(bob2))
-# print(fiction1.get_author())
-# print(fiction1)
-# print(nonfiction1)
-# print(bob.read_book(book1, 4))
-# print(bob.read_book(book2, 3))
-# print(bob.read_book(fiction1))
-# print(bob.read_book(nonfiction1, 4))
-# print(bob.get_avg_rating())
-# print(bob2.read_book(fiction1))
-# print(bob2.get_avg_rating())
-# print(nonfiction1.add_rating(4))
-# print(nonfiction1.get_avg_rating())
-# print(fiction1.get_avg_rating())
