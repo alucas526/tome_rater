@@ -1,4 +1,4 @@
-from tomerater3 import *
+from tomerater_main import *
 
 Tome_Rater = TomeRater()
 
