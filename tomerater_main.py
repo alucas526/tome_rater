@@ -9,14 +9,28 @@ class TomeRater:
     def __repr__(self):
         return "Welcome to TomeRater!"
 
+    create_fail = "Invalid ISBN. Book not created."
+
     def create_book(self, title, isbn):
-        return Book(title, isbn)
+        if Book.validate_isbn(self, isbn):
+            return Book(title, isbn)
+        else:
+            print(self.create_fail)
+            return None
 
     def create_fiction(self, title, author, isbn):
-        return Fiction(title, author, isbn)
+        if Book.validate_isbn(self, isbn):
+            return Fiction(title, author, isbn)
+        else:
+            print(self.create_fail)
+            return None
 
     def create_nonfiction(self, title, subject, level, isbn):
-        return NonFiction(title, subject, level, isbn)
+        if Book.validate_isbn(self, isbn):
+            return NonFiction(title, subject, level, isbn)
+        else:
+            print(self.create_fail)
+            return None
 
     def add_book_to_user(self, book, email, rating=None):
         if email in self.users.keys():
@@ -31,18 +45,27 @@ class TomeRater:
             return "No user was found with an email address of {email}".format(email=email.lower())
 
     def add_user(self, name, email, user_books=None):
-        self.users[email] = User(name, email)
-        if user_books is not None:
-            for book in user_books:
-                self.add_book_to_user(book, email)
+        if User.validate_email(self, email):
+            self.users[email] = User(name, email)
+            if user_books is not None:
+                for book in user_books:
+                    self.add_book_to_user(book, email)
+        else:
+            return "'{email}' is an invalid email address. User not created.".format(email=email)
 
     def print_catalog(self):
+        print("This is the TomeRater Catalog:")
+        print("------------------------------")
         for key in self.books.keys():
             print(key)
+        print("==============================")
 
     def print_users(self):
+        print("These are the TomeRater users:")
+        print("------------------------------")
         for value in self.users.values():
             print(value)
+        print("==============================")
 
     def most_read_book(self):
         most_read = 0

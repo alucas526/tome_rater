@@ -17,16 +17,29 @@ class Book(object):
             return False
 
     def get_title(self):
-        return "\"{title}\"".format(title=self.title.title())
+        return self.title
 
     def get_isbn(self):
-        return "{isbn} is the ISBN of \"{title}\"."\
-            .format(isbn=self.isbn, title=self.title.title())
+        return self.isbn
+
+    def validate_isbn(self, isbn):
+        if type(isbn) is not int:
+            return False
+        if len(str(isbn)) == 10 or len(str(isbn)) == 13:
+            return True
+        else:
+            return False
 
     def set_isbn(self, new_isbn):
-        self.isbn = new_isbn
-        return "{isbn} is the new ISBN for \"{title}\"."\
-            .format(isbn=self.isbn, title=self.title.title())
+        if self.validate_isbn(new_isbn):
+            if new_isbn != self.isbn:
+                self.isbn = new_isbn
+                return "{isbn} is the new ISBN for \"{title}\"."\
+                    .format(isbn=self.isbn, title=self.title.title())
+            else:
+                return "ISBN for \"{title}\" is already {isbn}. No changes made.".format(title=self.title, isbn=self.isbn)
+        else:
+            return "'{new_isbn}' is not a valid ISBN. No changes made.".format(new_isbn=new_isbn)
 
     def add_rating(self, rating):
         if rating is not None:

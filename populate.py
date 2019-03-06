@@ -3,13 +3,14 @@ from tomerater_main import *
 Tome_Rater = TomeRater()
 
 # Create some books:
-book1 = Tome_Rater.create_book("Society of Mind", 12345678)
-novel1 = Tome_Rater.create_fiction("Alice In Wonderland", "Lewis Carroll", 12345)
+book1 = Tome_Rater.create_book("Society of Mind", 9780671657130)
+novel1 = Tome_Rater.create_fiction("Alice In Wonderland", "Lewis Carroll", 9781503250215)
 novel1.set_isbn(9781536831139)
-nonfiction1 = Tome_Rater.create_nonfiction("Automate the Boring Stuff", "Python", "beginner", 1929452)
-nonfiction2 = Tome_Rater.create_nonfiction("Computing Machinery and Intelligence", "AI", "advanced", 11111938)
-novel2 = Tome_Rater.create_fiction("The Diamond Age", "Neal Stephenson", 10101010)
-novel3 = Tome_Rater.create_fiction("There Will Come Soft Rains", "Ray Bradbury", 10001000)
+nonfiction1 = Tome_Rater.create_nonfiction("Automate the Boring Stuff", "Python", "beginner", 9781593275990)
+nonfiction2 = Tome_Rater.create_nonfiction("Computing Machinery and Intelligence", "AI", "advanced", 9780262560925)
+novel2 = Tome_Rater.create_fiction("The Diamond Age", "Neal Stephenson", 9780553380965)
+novel3 = Tome_Rater.create_fiction("There Will Come Soft Rains", "Ray Bradbury", 9780895989628)
+novel4 = Tome_Rater.create_fiction("It", "Stephen King", 2234756)
 
 # Create users:
 Tome_Rater.add_user("Alan Turing", "alan@turing.com")
@@ -28,15 +29,6 @@ Tome_Rater.add_book_to_user(novel3, "alan@turing.com", 1)
 Tome_Rater.add_book_to_user(novel2, "marvin@mit.edu", 2)
 Tome_Rater.add_book_to_user(novel3, "marvin@mit.edu", 2)
 Tome_Rater.add_book_to_user(novel3, "david@computation.org", 4)
-
-print(Tome_Rater.users["alan@turing.com"].change_email("alan@"))
-print(Tome_Rater.users["alan@turing.com"].change_email("@turing.com"))
-print(Tome_Rater.users["alan@turing.com"].change_email("alanturing.com"))
-print(Tome_Rater.users["alan@turing.com"].change_email("alan@turing."))
-print(Tome_Rater.users["alan@turing.com"].change_email("alan@t.c"))
-print(Tome_Rater.users["alan@turing.com"].change_email("alan@.com"))
-print(Tome_Rater.users["alan@turing.com"].change_email("alan@turing.net"))
-
 
 # Uncomment these to test your functions:
 Tome_Rater.print_catalog()
