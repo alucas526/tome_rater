@@ -7,6 +7,9 @@ class Book(object):
     def __hash__(self):
         return hash((self.title, self.isbn))
 
+    def __str__(self):
+        return "\"{title}\" is a book with an ISBN of {isbn}.".format(title=self.title.title(), isbn=self.isbn)
+
     def __repr__(self):
         return "\"{title}\" is a book with an ISBN of {isbn}.".format(title=self.title.title(), isbn=self.isbn)
 
@@ -34,24 +37,25 @@ class Book(object):
         if self.validate_isbn(new_isbn):
             if new_isbn != self.isbn:
                 self.isbn = new_isbn
-                return "{isbn} is the new ISBN for \"{title}\"."\
-                    .format(isbn=self.isbn, title=self.title.title())
+                print("{isbn} is the new ISBN for \"{title}\"."
+                      .format(isbn=self.isbn, title=self.title.title()))
             else:
-                return "ISBN for \"{title}\" is already {isbn}. No changes made.".format(title=self.title, isbn=self.isbn)
+                print("ISBN for \"{title}\" is already {isbn}. No changes made."
+                      .format(title=self.title, isbn=self.isbn))
         else:
-            return "'{new_isbn}' is not a valid ISBN. No changes made.".format(new_isbn=new_isbn)
+            print("'{new_isbn}' is not a valid ISBN. No changes made.".format(new_isbn=new_isbn))
 
     def add_rating(self, rating):
         if rating is not None:
             if 0 <= rating <= 4:
                 self.ratings.append(rating)
-                return "A rating of {rating:.2f} has been added to \"{title}\"."\
-                    .format(rating=rating, title=self.title.title())
+                print("A rating of {rating:.2f} has been added to \"{title}\"."
+                      .format(rating=rating, title=self.title.title()))
             else:
-                return "{rating} is not a valid rating. Rating must be between 0 and 4."\
-                    .format(rating=rating)
+                print("{rating} is not a valid rating. Rating must be between 0 and 4."
+                      .format(rating=rating))
         else:
-            return "No rating added to \"{title}\".".format(title=self.title.title())
+            print("No rating added to \"{title}\".".format(title=self.title.title()))
 
     def get_avg_rating(self):
         if len(self.ratings) > 0:
@@ -59,10 +63,11 @@ class Book(object):
             for rating in self.ratings:
                 total_rating += rating
             avg_rating = total_rating / len(self.ratings)
+            print("The average rating for \"{title}\" is {avg_rating:.2f}"
+                  .format(title=self.title, avg_rating=avg_rating))
             return avg_rating
         else:
-            return "\"{title}\" does not have any ratings."\
-                .format(title=self.title)
+            print("\"{title}\" does not have any ratings.".format(title=self.title))
 
 
 class Fiction(Book):
@@ -75,7 +80,7 @@ class Fiction(Book):
             .format(title=self.title.title(), author=self.author)
 
     def get_author(self):
-        return "{author} is the author of \"{title}\".".format(author=self.author, title=self.title.title())
+        print("{author} is the author of \"{title}\".".format(author=self.author, title=self.title.title()))
 
 
 class NonFiction(Book):
